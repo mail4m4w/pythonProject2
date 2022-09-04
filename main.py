@@ -6,14 +6,6 @@ import undetected_chromedriver as uc
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.chrome.options import Options
 
-
-chrome_options = uc.ChromeOptions()
-chrome_options.add_argument("--incognito")
-driver = uc.Chrome(driver_executable_path="chromedriver.exe", use_subprocess=True, options=chrome_options)
-chrome_options = Options()
-chrome_options.add_experimental_option("detach", True)
-
-
 # with open('Usenumber.txt', 'r') as f:
 #     lines = f.read().splitlines()
 #     last_line = lines[-1]
